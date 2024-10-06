@@ -1,150 +1,171 @@
 # Challenge: TaskLister Mini-Project
 
-## Learning Goals
+## myOriginal js-code using document.getElementById(''). original id for taskinput = "new-task-description"
 
-- Build a functioning to-do list application
-- Suppress a default action with `event.preventDefault()`
+document.addEventListener("DOMContentLoaded", () => {
+function showTask(event) {
+event.preventDefault();
 
-## Introduction
+    const taskInput = document.getElementById("new-task-description");
+    const taskList = document.getElementById("tasks");
+    const priorityInput = document.getElementById("priority");
 
-In this lab, you'll be creating a simple to-do list application that uses
-JavaScript to manipulate the DOM.
+    if (taskInput.value.trim() === "") {
+      alert("Task description missing");
+      return;
+    }
 
-Check out the [working demo][example]!
+    const li = document.createElement("li");
+    li.textContent = taskInput.value.toUpperCase();
 
-## Lab: Build a Functioning To-Do List Application
+    // set colors for user priorities
+    const priorityColors = {
+      High: "red",
+      Medium: "yellow",
+      Low: "green"
+    };
 
-Instead of relying on tests, this lab is _deliverable driven_. You will be
-responsible for ensuring that your solution works as intended by testing the
-behavior in the browser.
+    li.style.color = priorityColors[priorityInput.value] || "black"; // Default to black for unrecognized priority
 
-1. Fork and clone this repository
-2. Open `index.html` in Chrome
-3. Put your JavaScript knowledge to the test and work your way through the
-   deliverables
+    // Create the delete button
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "X";
 
-Once you're done, be sure to commit and push your code up to GitHub, then submit
-the assignment using CodeGrade. Even though this lab does not have tests, it
-must still be submitted through CodeGrade in order to be marked as complete in
-Canvas.
+    // Add event listener for delete button
+    deleteButton.addEventListener("click", () => {
+      taskList.removeChild(li);
+    });
 
-### Structuring Your Code
+    // Append button to li and then to ul
+    li.appendChild(deleteButton);
+    taskList.appendChild(li);
 
-You've been provided with a basic HTML file, as well as an `index.js` file where
-you can implement your solution. Note that the `index.js` file is contained
-within a `src` folder — this is a common pattern that you will see in many labs
-moving forward. If you take a look at the `index.html` file, you'll see that the
-`script` tag that loads the code file includes the `src` directory in its path:
+    // Clear the input field
+    taskInput.value = "";
 
-```html
-<script src="./src/index.js"></script>
-```
+}
 
-### Deliverables
+const submitButton = document.getElementById("submitBtn");
+submitButton.addEventListener("click", showTask);
+});
 
-- As a user, I should be able to type a task into the input field.
-- As a user, I should be able to click some form of a submit button.
-- As a user, I expect to see the task string that I provided appear in the DOM
-  after the submit button has been activated.
+## its original html code with the original variable.
 
-**Note:** [While the example][example] shows one possible working implementation
-of the TaskLister app, yours can (and is encouraged to!) look however you like!
+<!-- <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flatiron Task Lister</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="main-content">
+    <h1>Task Lister Lite™️</h1>
 
-### HTML Forms
+    <form id="create-task-form" action="#" method="POST">
+      <label for="new-task-description">Task description:</label>
+      <input type="text" id="new-task-description" name="new-task-description" placeholder="description">
+      <label for="priority">Select Priority</label>
+      <select name="priority" id="priority">
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      <input type="submit" id="submitBtn" value="Create New Task">
+    </form>
 
-For this lab, we are going to be using the [HTML `<form>` element][form] to
-capture the tasks the user enters. HTML forms can be quite complex and
-sophisticated but, at their most basic, consist of opening and closing `<form>`
-tags that enclose one or more `<input>` elements where users can enter
-information, and a way to submit the form. There are many types of [input
-fields][] to choose from; we use the `type` attribute to specify the one we
-want. For this lab, we are using two: a text field (`type="text"`) and a submit
-button (`type="submit"`).
+    <div id="list">
+      <h2>My Todos:</h2>
+      <ul id="tasks">
+      </ul>
+    </div>
 
-If you look in the `index.html` file, you will see the following:
+    <!-- <script src="./src/index.js"></script> -->
+  </div>
+  <!-- <script src="./src/index.js"></script> -->
+  <script src="./rough.js"></script
+</body>
+</html> -->
 
-```html
-<form id="create-task-form" action="#" method="POST">
-  <label for="new-task-description">Task description:</label>
-  <input
-    type="text"
-    id="new-task-description"
-    name="new-task-description"
-    placeholder="description"
-  />
-  <input type="submit" value="Create New Task" />
-</form>
-```
+## cloned html
 
-Now take a look at the page in your browser. The rendered form looks like this:
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flatiron Task Lister</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="main-content">
+    <h1>Task Lister Lite™️</h1>
 
-![TaskLister input form](https://curriculum-content.s3.amazonaws.com/phase-1/javascript-events/task_lister.png)
+    <form id="create-task-form" action="" method="POST">
+      <label for="new-task-description">Task description:</label>
+      <input type="text" id="new-task-description" name="new-task-description" placeholder="description">
+      <input type="submit" value="Create New Task">
+    </form>
 
-You can see each of the components that are in our form's HTML:
+    <div id="list">
+      <h2>My Todos:</h2>
+      <ul id="tasks">
+      </ul>
+    </div>
 
-1. the label for our input field ("Task description:")
-2. the input box, with the placeholder content "description", and
-3. the button that's created by the `submit` input tag
+    <script src="./src/index.js"></script>
 
-Let's take a closer look at the opening `<form>` tag. You'll see it includes an
-(optional) `id` attribute and two other attributes:
+  </div>
 
-```html
-<form id="create-task-form" action="#" method="POST"></form>
-```
+</body>
+</html>
 
-Because HTML forms were designed to be handled by backend programming languages
-such as PHP, the `action` attribute would normally contain a path to the backend
-code that processes the data captured from the user. Because we will be handling
-the form using JavaScript, we don't need to provide a path. By convention, we
-set that attribute to `"#"`.
+## copy of the original css
 
-The `method` attribute specifies the _type_ of action we're executing when the
-form is submitted. The `method` attribute's value (in this case, "POST") is an
-_HTTP Verb_. (Although it is not required, you will often see HTTP verbs in all
-caps.) We will learn more about HTTP Verbs in the next section. For now, just
-know that the `POST` method is used when we want to capture the data submitted
-by our form and use it in some way.
+html {
+height: 100%;
+width: 100%;
+font-family: "Titillium Web", sans-serif;
+}
 
-By default, the HTML `<form>` element submits the form and redirects the browser
-to a new url when the `<submit>` button is clicked. This default behavior makes
-sense when form submission is being handled by a back-end programming language.
-However, this _is not_ the experience we want to build in this lab. We instead
-want to handle the submission of the form using JavaScript and update the DOM
-without reloading the page. Therefore, we need to prevent that event from
-performing its default behavior.
+body {
+min-height: 100%;
+min-width: 100%;
+background: linear-gradient(pink, violet);
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-### Suppress a Default Action with `Event.preventDefault()`
+button {
+font-size: 7px;
+}
 
-The deliverables for this lab require you to use JavaScript to handle the
-clicking of the submit button. To do this, you'll need to listen for a `submit`
-event on the `<form>` element. In order to _prevent_ the _default_ behavior of
-the `submit` event, when our event listener "sees" the event, it needs to invoke
-the `preventDefault()` method on it.
+#priority{
+width: 100px;
+}
 
-Take a look at the [MDN Documentation on `Event.preventDefault()`][mdn-pd].
-You'll see how JavaScript is used to prevent a form element (checkbox) from
-doing its _default_ behavior (appearing checked upon click). You'll want to
-prevent `submit` from doing its default behavior in a similar fashion.
+#main-content {
+position: relative;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+border: 1px solid #333;
+background: rgba(255, 255, 255, 0.3);
+padding: 15px 20px 18px 18px;
+border-radius: 5px;
+box-shadow: 2px 5px 5px #333;
+}
 
-### Stretch Deliverables
+#list {
+margin: 10px;
+border: 1px solid #333;
+background: rgba(255, 255, 255, 0.75);
+padding: 15px 20px 18px 18px;
+border-radius: 5px;
+box-shadow: 2px 5px 5px #333;
+}
 
-Once you've got the required deliverables working, you may want to try to
-implement one or more of the following:
-
-- A delete function that will remove tasks from your list
-- A priority value selected from a [dropdown][] that is used to determine the
-  color of the text in the list (e.g. red for high priority, yellow for medium,
-  green for low)
-  - As an additional challenge, implement a sorting functionality that displays
-    the tasks in ascending or descending order based on priority
-- An additional input field (e.g. user, duration, date due)
-- Ability to edit tasks
-- Something of your choice! The main objective is to add a feature that allows
-  the user's input to affect the DOM
-
-[example]: https://learn-co-curriculum.github.io/js-task-lister-lite/
-[mdn-pd]: https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
-[form]: https://developer.mozilla.org/en-US/docs/Learn/Forms/Your_first_form
-[input fields]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input
-[dropdown]: https://www.w3docs.com/learn-html/html-select-tag.html
+/_ #tasks{
+display: grid;
+grid-row: auto;
+border-style: dotted;
+} _/
